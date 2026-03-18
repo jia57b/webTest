@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Node dependencies inside skills
+skills/**/node_modules/
+
+# Playwright / test artifacts if later generated in this repo
+playwright-report/
+test-results/
+reports/
+artifacts/
+
