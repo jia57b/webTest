@@ -3,15 +3,15 @@
 ## 索引
 
 - [使用指南](#guide)
-- [1. 根据代码生成端到端测试场景](#prompt-1)
-- [2. 基于 PR diff 生成端到端测试场景](#prompt-2)
-- [3. 基于 GitHub PR URL 自动拉取 diff 并生成端到端测试场景](#prompt-3)
-- [4. 基于 GitHub PR URL 直接生成 Playwright 测试代码](#prompt-4)
-- [5. 根据测试场景生成 Playwright 测试骨架](#prompt-5)
-- [6. 根据测试场景生成 Playwright 测试代码](#prompt-6)
-- [7. 运行测试并生成集成测试报告](#prompt-7)
-- [8. 根据 Jira ticket 自动生成测试场景和测试用例（自动读取 Jira 版）](#prompt-8)
-- [9. 根据 Jira ticket 自动生成测试场景和测试用例（手工输入版）](#prompt-9)
+- [Prompt 1. 根据代码生成端到端测试场景](#prompt-1)
+- [Prompt 2. 基于 PR diff 生成端到端测试场景](#prompt-2)
+- [Prompt 3. 基于 GitHub PR URL 自动拉取 diff 并生成端到端测试场景](#prompt-3)
+- [Prompt 4. 基于 GitHub PR URL 直接生成 Playwright 测试代码](#prompt-4)
+- [Prompt 5. 根据测试场景生成 Playwright 测试骨架](#prompt-5)
+- [Prompt 6. 根据测试场景生成 Playwright 测试代码](#prompt-6)
+- [Prompt 7. 运行测试并生成集成测试报告](#prompt-7)
+- [Prompt 8. 根据 Jira ticket 自动生成测试场景和测试用例（自动读取 Jira 版）](#prompt-8)
+- [Prompt 9. 根据 Jira ticket 自动生成测试场景和测试用例（手工输入版）](#prompt-9)
 - [推荐使用顺序](#recommended-order)
 - [使用建议](#usage-notes)
 
@@ -319,7 +319,7 @@ reports/e2e/
 9. 根据 Jira ticket 自动生成测试场景和测试用例（手工输入版）
 
 <a id="prompt-1"></a>
-## 1. 根据代码生成端到端测试场景
+## Prompt 1. 根据代码生成端到端测试场景
 
 说明：
 
@@ -438,7 +438,7 @@ Use @testing-qa and @test-automator to analyze this web application and generate
 ```
 
 <a id="prompt-2"></a>
-## 2. 基于 PR diff 生成端到端测试场景
+## Prompt 2. 基于 PR diff 生成端到端测试场景
 
 ```text
 Use @differential-review, @test-automator, and @testing-qa to analyze a PR diff and generate the end-to-end test scenarios that should be added or updated because of this change.
@@ -568,7 +568,7 @@ Use @differential-review, @test-automator, and @testing-qa to analyze a PR diff 
 ```
 
 <a id="prompt-3"></a>
-## 3. 基于 GitHub PR URL 自动拉取 diff 并生成端到端测试场景
+## Prompt 3. 基于 GitHub PR URL 自动拉取 diff 并生成端到端测试场景
 
 ```text
 Use @differential-review, @test-automator, and @testing-qa to fetch a GitHub pull request diff from its URL, analyze the change set, and generate the end-to-end test scenarios that should be added, updated, or rerun.
@@ -718,7 +718,7 @@ Use @differential-review, @test-automator, and @testing-qa to fetch a GitHub pul
 ```
 
 <a id="prompt-4"></a>
-## 4. 基于 GitHub PR URL 直接生成 Playwright 测试代码
+## Prompt 4. 基于 GitHub PR URL 直接生成 Playwright 测试代码
 
 ```text
 Use @differential-review, @test-automator, @testing-qa, and @playwright-skill to fetch a GitHub PR from its URL, analyze the diff, derive the required E2E scenarios, and directly implement Playwright test code in the local repository.
@@ -805,7 +805,7 @@ Use @differential-review, @test-automator, @testing-qa, and @playwright-skill to
 ```
 
 <a id="prompt-5"></a>
-## 5. 根据测试场景生成 Playwright 测试骨架
+## Prompt 5. 根据测试场景生成 Playwright 测试骨架
 
 说明：
 
@@ -878,7 +878,7 @@ Use @testing-qa and @playwright-skill to generate a Playwright test skeleton for
 ```
 
 <a id="prompt-6"></a>
-## 6. 根据测试场景生成 Playwright 测试代码
+## Prompt 6. 根据测试场景生成 Playwright 测试代码
 
 说明：
 
@@ -960,7 +960,7 @@ Use @playwright-skill and @test-automator to implement Playwright test code from
 ```
 
 <a id="prompt-7"></a>
-## 7. 运行测试并生成集成测试报告
+## Prompt 7. 运行测试并生成集成测试报告
 
 ```text
 Use @playwright-skill, @verification-before-completion, and @lint-and-validate to run the Playwright tests, verify the real results, and produce an integration test report.
@@ -1092,7 +1092,7 @@ Use @playwright-skill, @verification-before-completion, and @lint-and-validate t
 ```
 
 <a id="prompt-8"></a>
-## 8. 根据 Jira ticket 自动生成测试场景和测试用例（自动读取 Jira 版）
+## Prompt 8. 根据 Jira ticket 自动生成测试场景和测试用例（自动读取 Jira 版）
 
 ```text
 Use @jira-automation, @testing-qa, and @test-automator to generate test scenarios and test cases from a Jira ticket.
@@ -1255,7 +1255,7 @@ Use @jira-automation, @testing-qa, and @test-automator to generate test scenario
 ```
 
 <a id="prompt-9"></a>
-## 9. 根据 Jira ticket 自动生成测试场景和测试用例（手工输入版）
+## Prompt 9. 根据 Jira ticket 自动生成测试场景和测试用例（手工输入版）
 
 ```text
 Use @testing-qa and @test-automator to generate test scenarios and test cases from the manually provided Jira ticket fields.
