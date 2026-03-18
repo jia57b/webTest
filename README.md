@@ -12,6 +12,7 @@
 - [Prompt 7. 运行测试并生成集成测试报告](#prompt-7)
 - [Prompt 8. 根据 Jira ticket 自动生成测试场景和测试用例（自动读取 Jira 版）](#prompt-8)
 - [Prompt 9. 根据 Jira ticket 自动生成测试场景和测试用例（手工输入版）](#prompt-9)
+- [Prompt 10. 根据 Linear ticket 自动生成测试场景和测试用例](#prompt-10)
 - [推荐使用顺序](#recommended-order)
 - [使用建议](#usage-notes)
 
@@ -306,7 +307,7 @@ reports/e2e/
 - 最后执行验证并产出测试报告
 
 
-本文档包含 9 份可直接复用的 Prompt：
+本文档包含 10 份可直接复用的 Prompt：
 
 1. 根据代码生成端到端测试场景
 2. 基于 PR diff 生成端到端测试场景
@@ -317,6 +318,7 @@ reports/e2e/
 7. 运行测试并生成集成测试报告
 8. 根据 Jira ticket 自动生成测试场景和测试用例（自动读取 Jira 版）
 9. 根据 Jira ticket 自动生成测试场景和测试用例（手工输入版）
+10. 根据 Linear ticket 自动生成测试场景和测试用例
 
 <a id="prompt-1"></a>
 ## Prompt 1. 根据代码生成端到端测试场景
@@ -1420,6 +1422,180 @@ Use @testing-qa and @test-automator to generate test scenarios and test cases fr
 - 除了在对话中输出摘要外，还必须把完整结果写入 `<OUTPUT_FILE>`。
 ```
 
+<a id="prompt-10"></a>
+## Prompt 10. 根据 Linear ticket 自动生成测试场景和测试用例
+
+```text
+If Linear automation/integration is available, use @linear-automation or @linear-claude-skill to read the Linear ticket,
+  then use @testing-qa and @test-automator to generate test scenarios and test cases.
+If no Linear integration is available, use the manually provided ticket fields and continue with @testing-qa and @test-automator.
+
+任务目标：
+根据 Linear ticket 的内容，自动生成高质量、可执行、可追溯的测试场景和测试用例，用于功能测试、集成测试和端到端测试设计。
+
+输入信息：
+- Linear Issue ID: <LINEAR_ID>
+- Ticket URL: <LINEAR_URL>
+- Title: <TITLE>
+- Description: <DESCRIPTION>
+- Acceptance Criteria: <ACCEPTANCE_CRITERIA>
+- Priority: <PRIORITY>
+- Labels: <LABELS>
+- Project: <PROJECT>
+- Cycle: <CYCLE>
+- Assignee: <ASSIGNEE>
+- Status: <STATUS>
+- Team: <TEAM>
+- Parent Issue / Sub-issues: <RELATED_ISSUES>
+- Linked PR / Commits: <LINKED_PRS_OR_COMMITS>
+- Attachments / Mockups / API Docs: <ATTACHMENTS>
+- Comments / Clarifications: <COMMENTS>
+- 输出文件路径: <OUTPUT_FILE>
+
+执行要求：
+1. 如果可以访问 Linear，请优先自动读取 ticket 原文。
+2. 如果不能访问 Linear，就基于我提供的字段工作，不要因缺少自动取数而中断。
+3. 先提炼需求目标、用户角色、业务对象、关键操作。
+4. 从 Title、Description、Acceptance Criteria、Comments 中识别：
+   - 主成功路径
+   - 必填与格式校验
+   - 权限/角色差异
+   - 状态流转
+   - 异常处理
+   - 边界条件
+   - 依赖系统或外部接口
+5. 对每个 Acceptance Criteria 至少映射 1 个测试场景。
+6. 如果没有显式 Acceptance Criteria，要根据 Title、Description、Comments 推导可测试验收点，并明确标注“推导项”。
+7. 生成的测试内容必须区分：
+   - 测试场景
+   - 详细测试用例
+8. 对每个测试用例标记：
+   - 优先级：P0 / P1 / P2
+   - 测试类型：功能 / 集成 / E2E / 回归
+   - 是否适合自动化：是 / 否 / 部分适合
+9. 如果 ticket 信息不足，要明确列出缺失项，不要自行臆造。
+10. 如果 ticket 已关联 PR 或 diff，补充建议的回归测试范围。
+11. 最终结果必须保存到本地 `<OUTPUT_FILE>`，格式为 Markdown。
+
+输出格式必须严格如下：
+
+# Linear 测试分析
+
+## 1. Ticket 概览
+- Linear ID:
+- Title:
+- Priority:
+- Labels:
+- Project:
+- Cycle:
+- Team:
+- 当前状态:
+- 主要目标:
+- 相关角色:
+- 关键业务对象:
+
+## 2. 需求理解
+- 需求摘要:
+- 核心业务规则:
+- 显式 Acceptance Criteria:
+- 推导出的验收点:
+- 隐含测试点:
+- 关键风险点:
+
+## 3. 测试场景
+### 场景 1：<标题>
+- 目标：
+- 前置条件：
+- 测试类型：
+- 优先级：
+- 覆盖的 Acceptance Criteria：
+- 是否为推导项：是 / 否
+- 说明：
+
+### 场景 2：<标题>
+- 目标：
+- 前置条件：
+- 测试类型：
+- 优先级：
+- 覆盖的 Acceptance Criteria：
+- 是否为推导项：是 / 否
+- 说明：
+
+## 4. 测试用例
+### 用例 1：<标题>
+- 用例 ID：<可留空或生成建议 ID>
+- 关联 Linear：<LINEAR_ID>
+- 所属场景：
+- 优先级：P0 / P1 / P2
+- 测试类型：功能 / 集成 / E2E / 回归
+- 是否适合自动化：是 / 否 / 部分适合
+- 前置条件：
+- 测试数据：
+- 执行步骤：
+  1.
+  2.
+  3.
+- 预期结果：
+  1.
+  2.
+  3.
+
+### 用例 2：<标题>
+- 用例 ID：
+- 关联 Linear：
+- 所属场景：
+- 优先级：
+- 测试类型：
+- 是否适合自动化：
+- 前置条件：
+- 测试数据：
+- 执行步骤：
+  1.
+  2.
+  3.
+- 预期结果：
+  1.
+  2.
+  3.
+
+## 5. 自动化建议
+- 建议优先自动化的场景：
+- 推荐自动化层级：
+  - 单元测试
+  - 集成测试
+  - E2E 测试
+- 不建议自动化的部分：
+- 原因：
+
+## 6. 回归测试建议
+- 建议回归范围：
+- 如果有关联 PR / diff，需要重点回归的模块：
+- 风险说明：
+
+## 7. 缺失信息 / 待确认项
+- 缺失项：
+- 为什么影响测试设计：
+- 建议向产品 / 开发确认的问题：
+
+补充要求：
+- 不要只输出泛泛的测试点，要输出可以执行的测试场景和测试用例。
+- 优先覆盖业务风险高、用户影响大的路径。
+- 若 ticket 涉及 UI 表单，必须覆盖：
+  - 必填校验
+  - 格式校验
+  - 成功提交
+  - 错误提示
+- 若 ticket 涉及状态流转，必须覆盖：
+  - 合法流转
+  - 非法流转
+  - 边界状态
+- 若 ticket 涉及权限，必须覆盖：
+  - 有权限
+  - 无权限
+  - 不同角色差异
+- 除了在对话中输出摘要外，还必须把完整结果写入 `<OUTPUT_FILE>`。
+```
+
 <a id="recommended-order"></a>
 ## 推荐使用顺序
 
@@ -1429,9 +1605,10 @@ Use @testing-qa and @test-automator to generate test scenarios and test cases fr
 4. 如果希望从 GitHub PR URL 直接落地测试代码，优先用“基于 GitHub PR URL 直接生成 Playwright 测试代码”
 5. 如果 Jira 可访问，优先用“根据 Jira ticket 自动生成测试场景和测试用例（自动读取 Jira 版）”
 6. 如果 Jira 不可访问，使用“根据 Jira ticket 自动生成测试场景和测试用例（手工输入版）”
-7. 再用“根据测试场景生成 Playwright 测试骨架”
-8. 再用“根据测试场景生成 Playwright 测试代码”
-9. 最后用“运行测试并生成集成测试报告”
+7. 如果需求主要来自 Linear ticket，使用“根据 Linear ticket 自动生成测试场景和测试用例”
+8. 再用“根据测试场景生成 Playwright 测试骨架”
+9. 再用“根据测试场景生成 Playwright 测试代码”
+10. 最后用“运行测试并生成集成测试报告”
 
 <a id="usage-notes"></a>
 ## 使用建议
@@ -1442,7 +1619,8 @@ Use @testing-qa and @test-automator to generate test scenarios and test cases fr
 - 如果你想从 GitHub PR URL 一步直达 Playwright 代码，使用第 4 份 prompt。
 - 如果需求来源是 Jira ticket，且当前环境能访问 Jira，优先使用第 8 份 prompt。
 - 如果需求来源是 Jira ticket，但当前环境不能访问 Jira，就把 Jira 字段手工填入第 9 份 prompt。
+- 如果需求来源是 Linear ticket，就使用第 10 份 prompt；有 Linear 集成时优先自动读取，没有集成时手工填字段。
 - 如果是已有 Playwright 项目，第 5 份 prompt 里的“是否已有 Playwright”填 `YES`。
-- 如果项目依赖登录态、测试账号、第三方 SSO，先准备好测试环境和账号信息，否则第 4、7、8、9 份 prompt 容易卡在 blocker。
+- 如果项目依赖登录态、测试账号、第三方 SSO，先准备好测试环境和账号信息，否则第 4、8、9、10 份 prompt 容易卡在 blocker。
 - 第 7 份 prompt 必须建立在真实测试命令和真实输出之上，不能拿来写“假报告”。
 - 目前本文档所有 prompt 都已经补充为：结果不仅要在对话中输出，还要明确写入本地目标文件或目标目录。
